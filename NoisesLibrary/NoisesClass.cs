@@ -348,37 +348,5 @@ namespace NoisesLibrary
             if (min > heighmap[tgx, tgy])
                 min = heighmap[tgx, tgy];
         }
-
-
-
-        public static void MidPointDisplacement(int lx, int ly, int rx, int ry)
-        {
-            int l = (rx - lx) / 2;
-            if (l > 0)
-            {
-                float a = heighmap[lx, ly];              //  B--------C
-                float b = heighmap[lx, ry];              //  |        |
-                float c = heighmap[rx, ry];              //  |   ce   |
-                float d = heighmap[rx, ly];              //  |        |
-                                                         //  A--------D
-                int cex = lx + l;
-                int cey = ly + l;
-
-                float z = l * 2 * roughness / w;
-                heighmap[cex, cey] = (a + b + c + d) / 4 + (float)(randds.NextDouble() * (z - (-z)) + (-z));
-
-                heighmap[lx, cey] = (a + b) / 2 + (float)(randds.NextDouble() * (z - (-z)) + (-z));
-                heighmap[rx, cey] = (c + d) / 2 + (float)(randds.NextDouble() * (z - (-z)) + (-z));
-                heighmap[cex, ly] = (a + d) / 2 + (float)(randds.NextDouble() * (z - (-z)) + (-z));
-                heighmap[cex, ry] = (b + c) / 2 + (float)(randds.NextDouble() * (z - (-z)) + (-z));
-
-                MidPointDisplacement(lx, ly, cex, cey);
-                MidPointDisplacement(lx, ly + l, lx + l, ry);
-                MidPointDisplacement(cex, cey, rx, ry);
-                MidPointDisplacement(lx + l, ly, rx, cey);
-            }
-        }
-
-        
     }
 }
