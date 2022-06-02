@@ -16,7 +16,7 @@ namespace NoisesLibrary
         }
         //Массив случайных чисел
         private byte[] permutationTable;
-        private static int w, h;
+        private int w, h;
         //Карта шума
         private float[] noiseMap;
 
@@ -121,7 +121,7 @@ namespace NoisesLibrary
         }
 
         private float[] GetPseudoRandomGradientVector(int x, int y)
-        {            
+        {
             //Хэш-функция с простыми числами
             int v = (int)(((x * 1836311903) ^ (y * 2971215073) + 4807526976) & 1023);
             v = permutationTable[v] & 3;
@@ -135,19 +135,19 @@ namespace NoisesLibrary
             }
         }
 
-        private static float QunticCurve(float t)
+        private float QunticCurve(float t)
         {
             //Билинейная интерполяция
             return t * t * t * (t * (t * 6 - 15) + 10);
         }
 
-        private static float Lerp(float a, float b, float t)
+        private float Lerp(float a, float b, float t)
         {
             //Линейная интерполяция
             return a + (b - a) * t;
         }
 
-        private static float Dot(float[] a, float[] b)
+        private float Dot(float[] a, float[] b)
         {
             //Cкалярное произведение векторов
             return a[0] * b[0] + a[1] * b[1];
@@ -191,7 +191,7 @@ namespace NoisesLibrary
 
 
 
-        
+
         public static float[,] heighmap;
         //Определяет разницу высот
         private static float roughness = 1.0f;
@@ -208,7 +208,7 @@ namespace NoisesLibrary
         /// <param name="asperity">Определяет разницу высот, чем больше, тем более неравномерная карта высот</param>
         /// <param name="RMin">RandomStartChengeMin</param>
         /// <param name="RMax">RandomStartChengeMax</param>
-        public static float[,] DiamondSquareNoise(UInt16 degreeOfTwo, UInt16 seed, bool rectangle, float asperity, float RMin = 0.3f, float RMax = 0.6f)
+        public float[,] DiamondSquareNoise(UInt16 degreeOfTwo, UInt16 seed, bool rectangle, float asperity, float RMin = 0.3f, float RMax = 0.6f)
         {
             randds = new Random(seed);
             if (RMin > RMax)
@@ -219,7 +219,7 @@ namespace NoisesLibrary
             }
             roughness = asperity;
             h = w = (int)Math.Pow(2, degreeOfTwo) + 1;
-            
+
 
             //Начальные значения по краям карты
             if (rectangle)
@@ -256,7 +256,7 @@ namespace NoisesLibrary
             return heighmap;
         }
 
-        private static void DiamondSquare(int lx, int ly, int rx, int ry)
+        private void DiamondSquare(int lx, int ly, int rx, int ry)
         {
             //Сторона текущего квадрата
             int l = (rx - lx) / 2;
@@ -271,7 +271,7 @@ namespace NoisesLibrary
             Diamond(lx + l, ly, l);
         }
 
-        private static void Square(int lx, int ly, int rx, int ry)
+        private void Square(int lx, int ly, int rx, int ry)
         {
             //Сторона текущего квадрата
             int l = (rx - lx) / 2;
@@ -297,8 +297,8 @@ namespace NoisesLibrary
                 min = heighmap[centerX, centerY];
         }
 
-        
-        private static void Diamond(int tgx, int tgy, int l)
+
+        private void Diamond(int tgx, int tgy, int l)
         {
             float a, b, c, d;
 
@@ -317,13 +317,13 @@ namespace NoisesLibrary
             else
                 b = heighmap[h - l, tgy];
 
-            
+
             if (tgy + l < h)
                 c = heighmap[tgx, tgy + l];
             else
                 c = heighmap[tgx, l];
 
-            
+
             if (lrflag)
             {
                 if (tgx + l < w)
